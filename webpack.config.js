@@ -5,19 +5,12 @@ var webpack = require('webpack');
  */
 var config = {
   devtool: 'eval-source-map',
-  entry:  __dirname + "/src/index.js",
+  entry:  __dirname + "/src/app.js",
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
   },
   module: {
-		preLoaders: [
-			{
-				test: /\.jsx?$/,
-				loader: "eslint-loader",
-				exclude: /node_modules/
-			}
-		],
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
