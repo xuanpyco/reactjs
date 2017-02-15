@@ -1,8 +1,18 @@
 import React from 'react';
 import Task from './Task.js';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
-export default class TaskList extends React.Component{
+const mapStateToProp = (state) => {
+    return {
+        tasks: state.tasks
+    };
+}
+
+const mapDispatchToProp = (state) => {
+    return {};
+}
+export class TaskList extends React.Component{
     constructor(){
         super();
     }
@@ -15,3 +25,5 @@ export default class TaskList extends React.Component{
                 </div>);
     }
 }
+
+export default connect(mapStateToProp, mapDispatchToProp)(TaskList);

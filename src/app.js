@@ -3,7 +3,10 @@ import TaskList from './TaskList.js';
 import Task from './Task.js';
 import { render } from 'react-dom';
 import TaskForm from './TaskForm.js';
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
+import {connect, Provider} from 'react-redux';
+import {createStore} from 'redux';
+import appReducer from './reducers';
 
 class App extends React.Component {
 	constructor(){
@@ -21,20 +24,25 @@ class App extends React.Component {
 		return (
 			<div>
 				<div style={helloStyle}>Hello Guest. <Link to='/'>My Tasks</Link></div>
-
-				{React.cloneElement(this.props.children, {tasks: this.state.tasks, app: this})}
 			</div>
 		);
 	}
 }
 
-render(
-	<Router history={browserHistory}>
-		<Route path='/' component={App}>
-			<IndexRoute component={TaskList}/>
-			<Route path='tasks/:taskId' component={Task}/>
-			<Route path='taskForm' component={TaskForm}/>
-		</Route>
-	</Router>,
+
+let store = createStore(appReducer);
+
+const Root =
+	(
+	<Provider>
+		<Router history={browserHistory}>
+			<Route path='/' component={App}>
+				<IndexRoute component={TaskList}/>
+				<Route path='tasks/:taskId' component={Task}/>
+				<Route path='taskForm' component={TaskForm}/>
+			</Route>
+		</Router>
+	</Provider>);
+render(Root,
 	document.getElementById('root')
 );
