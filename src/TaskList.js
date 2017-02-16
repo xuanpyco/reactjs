@@ -17,11 +17,12 @@ export class TaskList extends React.Component{
         super();
     }
 
-    render(){                               
+    render(){
         return (<div>
                     <h1>Task List</h1>
                     <Link to='/taskForm'>Create New Task</Link>
-                    {this.props.tasks.map((task) => <div><Link to={'/tasks/' + task.id}>{task.summary}</Link></div>)}
+                    {this.props.tasks.map((task) => <div key={task.id} ><Link to={'/tasks/' + task.id}>{task.summary}</Link></div>)}
+                    <div><b>Total Effort: {this.props.tasks.reduce((total, task) => (total + task.effort), 0)}</b></div>
                 </div>);
     }
 }
