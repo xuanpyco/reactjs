@@ -24,17 +24,17 @@ class App extends React.Component {
 		return (
 			<div>
 				<div style={helloStyle}>Hello Guest. <Link to='/'>My Tasks</Link></div>
+				{this.props.children}
 			</div>
 		);
 	}
 }
 
-
 let store = createStore(appReducer);
 
 const Root =
 	(
-	<Provider>
+	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path='/' component={App}>
 				<IndexRoute component={TaskList}/>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import {createTask} from './actions';
+import {connect} from 'react-redux';
 
-export default class TaskForm extends React.Component{
+export class TaskForm extends React.Component{
     constructor(){
         super();
         this.state = {summary:'', desc:''};
@@ -21,7 +23,7 @@ export default class TaskForm extends React.Component{
     handleFormSubmit(event){
         event.preventDefault();
         event.stopPropagation();
-        this.props.app.createTask(this.state.summary, this.state.desc);
+        this.props.onSubmit({summary: this.state.summary, desc: this.state.desc});
         browserHistory.push('/');
     }
 
@@ -46,3 +48,17 @@ export default class TaskForm extends React.Component{
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {};
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubmit: (task) => {
+            dispatch(createTask(task.summary, task.desc));
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

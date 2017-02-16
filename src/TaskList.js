@@ -9,7 +9,7 @@ const mapStateToProp = (state) => {
     };
 }
 
-const mapDispatchToProp = (state) => {
+const mapDispatchToProp = (dispatch) => {
     return {};
 }
 export class TaskList extends React.Component{
