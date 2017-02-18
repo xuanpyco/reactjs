@@ -8,6 +8,13 @@ import {connect, Provider} from 'react-redux';
 import {createStore} from 'redux';
 import appReducer from './reducers';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 class App extends React.Component {
 	constructor(){
 		super();
@@ -22,10 +29,12 @@ class App extends React.Component {
 	render() {
 		const helloStyle = {color:'green', fontStyle: 'italic'};
 		return (
+			<MuiThemeProvider>
 			<div>
 				<div style={helloStyle}>Hello Guest. <Link to='/'>My Tasks</Link></div>
 				{this.props.children}
 			</div>
+			</MuiThemeProvider>
 		);
 	}
 }

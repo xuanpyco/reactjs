@@ -3,71 +3,62 @@ import { browserHistory } from 'react-router';
 import {createTask} from './actions';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
+import RaisedButton from 'material-ui/RaisedButton';
+import {
+  Checkbox,
+  RadioButtonGroup,
+  SelectField,
+  TextField,
+  Toggle,
+  DatePicker
+} from 'redux-form-material-ui';
+
+const required = value => value? undefined: 'Required';
+
+const nonNegative = value => value && parseInt(value) >= 0? undefined: 'Must be a non-negative number`';
 
 export class TaskForm extends React.Component{
     constructor(){
         super();
-        this.state = {summary:'', desc:'', effort: 0, completed: false};
-        this.handleDescChange = this.handleDescChange.bind(this);
-        this.handleSummaryChange = this.handleSummaryChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleEffortChange = this.handleEffortChange.bind(this);
-        this.handleSubmittedCheckboxChange = this.handleSubmittedCheckboxChange.bind(this);
     }
 
-    handleSummaryChange(event){
-        this.setState({summary: event.target.value})
-    }
-
-    handleEffortChange(event){
-      this.setState({effort: event.target.value});
-    }
-
-    handleDescChange(event){
-        this.setState({desc: event.target.value});
-    }
-
-    handleFormSubmit(event){
-        event.preventDefault();
-        event.stopPropagation();
-        this.props.onSubmit({
-          summary: this.state.summary,
-          desc: this.state.desc,
-          effort: parseInt(this.state.effort),
-          completed: this.state.completed
+    handleFormSubmit(values){
+            this.props.onSubmit({
+            summary: values.summary,
+            desc: values.desc,
+            effort: parseInt(values.effort),
+            completed: values.completed
         });
         browserHistory.push('/');
     }
 
-    handleSubmittedCheckboxChange (event) {
-      this.setState({completed: event.target.checked})
-    }
-
-    render(){
+    renderTextField ({ input, label, meta: { touched, error }}, hintText){
         return (
-            <form>
+            <TextField hintText={label}
+                floatingLabelText={label}
+                errorText={touched && error}
+                {...input}
+            />);
+    }
+    render(){
+        const {handleSubmit} = this.props;
+        return (
+            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                <h1> New Task</h1>
                 <div>
-                    <label>Summary:
-                       <Field name='summary' type='text' component='input' onChange={this.handleSummaryChange}/>
-                    </label>
+                    <Field validate={required} floatingLabelText='Summary' name='summary' type='text' component={TextField} />
                 </div>
                 <div>
-                    <label>Description:
-                        <Field type='text' component='input' name='desc' onChange={this.handleDescChange}/>
-                    </label>
+                    <Field floatingLabelText='Description' type='text' component={TextField} name='desc' />
                 </div>
                 <div>
-                    <label>Effort:
-                        <input type='number'name='effort' onChange={this.handleEffortChange}/>
-                    </label>
+                    <Field validate={nonNegative} floatingLabelText='Effort' component={TextField} type='number'name='effort' />
                 </div>
                 <div>
-                    <label>Completed:
-                        <input type='checkbox'name='completed' onChange={this.handleSubmittedCheckboxChange}/>
-                    </label>
-                </div>>
-                <button type='submit' onClick={this.handleFormSubmit}>Create Task</button>
+                    <Field component={Checkbox} label='Completed' name='completed'/>
+                </div>
+                <RaisedButton label="Primary" primary={true} onClick={handleSubmit(this.handleFormSubmit)}/>
             </form>
         );
     }
