@@ -58,7 +58,7 @@ export class TaskForm extends React.Component{
                 <div>
                     <Field component={Checkbox} label='Completed' name='completed'/>
                 </div>
-                <RaisedButton label="Primary" primary={true} onClick={handleSubmit(this.handleFormSubmit)}/>
+                <RaisedButton label="Create Task" primary={true} onClick={handleSubmit(this.handleFormSubmit)}/>
             </form>
         );
     }
