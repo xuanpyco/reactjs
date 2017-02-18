@@ -28,13 +28,10 @@ class App extends React.Component {
 	}
 	render() {
 		const helloStyle = {color:'green', fontStyle: 'italic'};
-		return (
-			<MuiThemeProvider>
-			<div>
+		return (			<div>
 				<div style={helloStyle}>Hello Guest. <Link to='/'>My Tasks</Link></div>
 				{this.props.children}
 			</div>
-			</MuiThemeProvider>
 		);
 	}
 }
@@ -44,6 +41,7 @@ let store = createStore(appReducer);
 const Root =
 	(
 	<Provider store={store}>
+		<MuiThemeProvider>
 		<Router history={browserHistory}>
 			<Route path='/' component={App}>
 				<IndexRoute component={TaskList}/>
@@ -51,6 +49,7 @@ const Root =
 				<Route path='taskForm' component={TaskForm}/>
 			</Route>
 		</Router>
+		</MuiThemeProvider>
 	</Provider>);
 render(Root,
 	document.getElementById('root')
