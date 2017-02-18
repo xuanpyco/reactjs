@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import {createTask} from './actions';
 import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
 
 export class TaskForm extends React.Component{
     constructor(){
@@ -44,17 +45,16 @@ export class TaskForm extends React.Component{
 
     render(){
         return (
-            <div>
-                <h1> New Task</h1>
             <form>
+               <h1> New Task</h1>
                 <div>
                     <label>Summary:
-                       <input name='summary' type='text' onChange={this.handleSummaryChange}/>
+                       <Field name='summary' type='text' component='input' onChange={this.handleSummaryChange}/>
                     </label>
                 </div>
                 <div>
                     <label>Description:
-                        <input type='text'name='desc' onChange={this.handleDescChange}/>
+                        <Field type='text' component='input' name='desc' onChange={this.handleDescChange}/>
                     </label>
                 </div>
                 <div>
@@ -66,10 +66,9 @@ export class TaskForm extends React.Component{
                     <label>Completed:
                         <input type='checkbox'name='completed' onChange={this.handleSubmittedCheckboxChange}/>
                     </label>
-                </div>
-                <input type='submit' value='Create Task' onClick={this.handleFormSubmit}/>
+                </div>>
+                <button type='submit' onClick={this.handleFormSubmit}>Create Task</button>
             </form>
-            </div>
         );
     }
 }
@@ -86,4 +85,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+    form: 'newTask'
+})(TaskForm));
